@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native-Gestures-0.5.x", "Native-Gestures-0.5.x\Native-Gestures.csproj", "{649430F3-1419-45FA-9B64-81E40C48F158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native-Gestures.Lib", "Native-Gestures.Lib\Native-Gestures.Lib.csproj", "{D34CEE9F-E78F-4901-909E-3A2855A81388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native-Gestures.Installer-0.5.x", "Native-Gestures.Installer-0.5.x\Native-Gestures.Installer-0.5.x.csproj", "{641CC9F9-8ACC-4AE4-B4D7-177AE86489FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native-Gestures.Installer-0.6.x", "Native-Gestures.Installer-0.6.x\Native-Gestures.Installer-0.6.x.csproj", "{EEEBD261-590A-4017-BE6F-5E504AC10A79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{649430F3-1419-45FA-9B64-81E40C48F158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649430F3-1419-45FA-9B64-81E40C48F158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649430F3-1419-45FA-9B64-81E40C48F158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649430F3-1419-45FA-9B64-81E40C48F158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D34CEE9F-E78F-4901-909E-3A2855A81388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34CEE9F-E78F-4901-909E-3A2855A81388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34CEE9F-E78F-4901-909E-3A2855A81388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34CEE9F-E78F-4901-909E-3A2855A81388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{641CC9F9-8ACC-4AE4-B4D7-177AE86489FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{641CC9F9-8ACC-4AE4-B4D7-177AE86489FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{641CC9F9-8ACC-4AE4-B4D7-177AE86489FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{641CC9F9-8ACC-4AE4-B4D7-177AE86489FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEBD261-590A-4017-BE6F-5E504AC10A79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEBD261-590A-4017-BE6F-5E504AC10A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEBD261-590A-4017-BE6F-5E504AC10A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEBD261-590A-4017-BE6F-5E504AC10A79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
