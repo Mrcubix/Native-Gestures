@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>NETSDK1138</NoWarn>
+    <AssemblyName>Native-Gestures.Installer</AssemblyName>
+  </PropertyGroup>
+
+  <!-- NET 5 Only -->
+  <ItemGroup>
+    <!-- OpenTabletDriver.Plugin -->
+    <ProjectReference Include="../.modules/OTD.EnhancedOutputMode/.modules/OpenTabletDriver/OpenTabletDriver.Plugin/OpenTabletDriver.Plugin.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- embed ressource /build/plugin/Wheel-Addon.zip -->
+  <ItemGroup>
+    <EmbeddedResource Include="../build/plugin/0.5.x/Native-Gestures-0.5.x.zip" />
+  </ItemGroup>
+
+</Project>
