@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "attach",
             "processName": "OpenTabletDriver.Daemon",
-            "justMyCode": false,
+            "justMyCode": true,
             "logging": {
                 "moduleLoad": false
             },
