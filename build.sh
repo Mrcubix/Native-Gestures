@@ -113,7 +113,7 @@ for version in "${versions[@]}"; do
         cd ./build/installer/$version
 
         # Compute checksums
-        sha256sum Native-Gestures.Installer-$version.zip > ../../hashes.txt
+        sha256sum Native-Gestures.Installer-$version.zip >> ../../hashes.txt
     )
 
 done
