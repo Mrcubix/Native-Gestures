@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using NativeGestures.Handlers;
+using NativeGestures.Lib.Interfaces;
+using OpenTabletDriver.Desktop.Interop;
 using OpenTabletDriver.Plugin;
 using OpenTabletDriver.Plugin.Attributes;
 using OpenTabletDriver.Plugin.Output;
@@ -10,10 +13,10 @@ using OpenTabletDriver.Plugin.Tablet;
 using OpenTabletDriver.Plugin.Tablet.Touch;
 using OpenTabletDriver.Plugin.Timing;
 using OpenTabletDriver.Tablet;
-using OTD.EnhancedOutputMode;
 
 namespace NativeGestures
 {
+    [PluginIgnore]
     [PluginName("Relative Mode Native Gestures")]
     public class RelativeNativeGesturesHandler : NativeGestureHandler, IFilter
     {
@@ -38,6 +41,11 @@ namespace NativeGestures
 
         #endregion
 
+        #region Properties
+
+
+        #endregion
+
         #region Initialization
 
         public override void Initialize()
@@ -49,12 +57,13 @@ namespace NativeGestures
             }
 
             _maxTouchCount = MaxTouchCount;
+            CurrentHandler = GetHandler(CurrentTouchDevice, true);
 
             // Due to a bug, only 10 touches are supported by the Windows API
             CurrentTouchDevice?.Initialize(_maxTouchCount);
 
             // Absolute mode has its own method for tranposing touch inputs specifically
-            Transpose = TransposeRelative;
+            //Transpose = TransposeRelative;
 
             // We need a lot more data when in relative mode
             _resetTime = mode.ResetTime;
@@ -76,6 +85,17 @@ namespace NativeGestures
         public Vector2 Filter(Vector2 input) => input;
 
         public override bool Pass(IDeviceReport report, ref ITabletReport tabletreport)
+        {
+            if (_isInitialized && report is ITouchReport touchReport)
+            {
+                CurrentHandler.Handle(touchReport.Touches);
+                return false;
+            }
+
+            return true;
+        }
+
+        /*public override bool Pass(IDeviceReport report, ref ITabletReport tabletreport)
         {
             if (_isInitialized && report is ITouchReport touchReport)
             {
@@ -128,19 +148,6 @@ namespace NativeGestures
             return true;
         }
 
-        protected override Vector2? TransposeCore(uint index, Vector2 pos)
-        {
-            _stubReport.Position = pos;
-            var resPos = Transpose(_stubReport, index);
-
-            // now that we know which index the pos is for, take that position & add the delta
-            // keep track of the last position
-            //if (resPos is Vector2 res /*&& _lastTransposedTouches[index] != null*/)
-                return resPos;
-            //else
-            //    return null;
-        }
-
         public Vector2? TransposeRelative(ITabletReport report, uint index)
         {
             _deltaTime = _stopwatches[index].Restart();
@@ -177,7 +184,7 @@ namespace NativeGestures
             {
                 return final;
             }
-        }
+        }*/
 
         #region Post Initialization
 
@@ -202,11 +209,6 @@ namespace NativeGestures
 
         #endregion
 
-        #region Properties
-
-
-        #endregion
-
         #region Static Stuff
 
         protected static Matrix3x2 CalculateRelativeTransformation(Vector2 sensitivity, TabletState tablet, float rotation)
@@ -217,6 +219,16 @@ namespace NativeGestures
             return res *= Matrix3x2.CreateScale(
                 sensitivity.X * ((tablet?.Digitizer?.Width / tablet?.Digitizer?.MaxX) ?? 0.01f),
                 sensitivity.Y * ((tablet?.Digitizer?.Height / tablet?.Digitizer?.MaxY) ?? 0.01f));
+        }
+
+        public static ITouchpadHandler<IOutputMode, TouchPoint> GetHandler(ITouchDevice<TouchPoint> touchDevice, bool isTouchpad = false)
+        {
+            return SystemInterop.CurrentPlatform switch
+            {
+                PluginPlatform.Windows => new RelativeModeTouchpadHandler(touchDevice),
+                PluginPlatform.Linux => throw new NotImplementedException("Linux is not supported yet"),
+                _ => null
+            };
         }
 
         #endregion

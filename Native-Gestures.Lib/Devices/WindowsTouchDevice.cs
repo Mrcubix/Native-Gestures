@@ -24,6 +24,7 @@ namespace NativeGestures.Lib.Device
 
         private bool[] _lastContact = Array.Empty<bool>();
 
+        public Vector2 ScreenScale { get; set; }
         public uint Count { get; private set; }
 
         [SupportedOSPlatform("windows10.0.17763")]
@@ -82,7 +83,7 @@ namespace NativeGestures.Lib.Device
                 {
                     pointerInfo = info,
                     touchFlags = PInvoke.TOUCH_FLAG_NONE,
-                    touchMask = PInvoke.TOUCH_MASK_PRESSURE // The device i plan to use it on does not provide contact area information
+                    touchMask = PInvoke.TOUCH_MASK_CONTACTAREA //PInvoke.TOUCH_MASK_PRESSURE // The device i plan to use it on does not provide contact area information
                 };
 
                 pointers[i] = new POINTER_TYPE_INFO
@@ -145,7 +146,7 @@ namespace NativeGestures.Lib.Device
 
         public void SetPressure(uint index, uint pressure)
         {
-            pointers![index].SetPressure(pressure);
+            //pointers![index].SetPressure(pressure);
 
             if (pressure > 0)
             {

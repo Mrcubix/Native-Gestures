@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.Versioning;
@@ -11,19 +10,17 @@ using NativeGestures.Lib.Linux.Evdev;
 
 namespace NativeGestures.Lib.Device
 {
-    public unsafe sealed class LinuxTouchDevice<T>(float width, float height) : ITouchDevice<T>
+    public unsafe sealed class LinuxTouchDevice<T>() : ITouchDevice<T>
     {
-        private const int MaxPressure = ushort.MaxValue;
-
         private readonly EvdevDevice _device = new("Native Gestures Virtual Touch Device");
         private bool[] _lastActiveTouches = Array.Empty<bool>();
         private bool[] _activeTouches = Array.Empty<bool>();
-        private Vector2 _screenScale = new(width, height);
         private Vector2 _primaryPosition = new();
-
-        private uint _lastCount = 0;
         private uint _currentCount = 0;
-
+        private uint _lastCount = 0;
+        
+        public Vector2 ScreenScale { get; set; }
+        public bool IsTouchscreen { get; set; }
         public uint Count { get; private set; }
 
         [SupportedOSPlatform("linux")]
@@ -36,7 +33,11 @@ namespace NativeGestures.Lib.Device
 
             BuildPointers();
 
-            //_device.EnableProperty(InputProperty.INPUT_PROP_DIRECT);
+            // if INPUT_PROP_DIRECT is enabled, then it works like a touchscreen
+            // Otherwise, it works like a trackpad, both with multi-touch.
+            if (IsTouchscreen)
+                _device.EnableProperty(InputProperty.INPUT_PROP_DIRECT);
+
             _device.EnableProperty(InputProperty.INPUT_PROP_POINTER);
             _device.EnableType(EventType.EV_ABS);
 
@@ -88,7 +89,7 @@ namespace NativeGestures.Lib.Device
             // X Multi-touch
             var xAbsMulti = new input_absinfo
             {
-                maximum = (int)_screenScale.X,
+                maximum = (int)ScreenScale.X,
             };
 
             input_absinfo* xMultiPtr = &xAbsMulti;
@@ -97,7 +98,7 @@ namespace NativeGestures.Lib.Device
             // Y Multi-touch
             var yAbsMulti = new input_absinfo
             {
-                maximum = (int)_screenScale.Y,
+                maximum = (int)ScreenScale.Y,
             };
 
             input_absinfo* yMultiPtr = &yAbsMulti;
@@ -115,7 +116,7 @@ namespace NativeGestures.Lib.Device
             // X Single
             var xAbs = new input_absinfo
             {
-                maximum = (int)_screenScale.X,
+                maximum = (int)ScreenScale.X,
             };
 
             input_absinfo* xPtr = &xAbs;
@@ -124,7 +125,7 @@ namespace NativeGestures.Lib.Device
             // Y Single
             var yAbs = new input_absinfo
             {
-                maximum = (int)_screenScale.Y,
+                maximum = (int)ScreenScale.Y,
             };
 
             input_absinfo* yPtr = &yAbs;
@@ -217,8 +218,11 @@ namespace NativeGestures.Lib.Device
 
         private void WritePrimary()
         {
-            _device.Write(EventType.EV_ABS, EventCode.ABS_X, (int)_primaryPosition.X);
-            _device.Write(EventType.EV_ABS, EventCode.ABS_Y, (int)_primaryPosition.Y);
+            if (_currentCount == 1 || _activeTouches[0] == true)
+            {
+                _device.Write(EventType.EV_ABS, EventCode.ABS_X, (int)_primaryPosition.X);
+                _device.Write(EventType.EV_ABS, EventCode.ABS_Y, (int)_primaryPosition.Y);
+            }
         }
 
         public void Dispose()

@@ -6,6 +6,10 @@ namespace NativeGestures.Lib.Interfaces
 {
     public interface ITouchDevice<T> : IDisposable
     {
+        Vector2 ScreenScale { get; set; }
+        
+        uint Count { get; }
+
         bool Initialize(uint count);
 
         Point? GetCursorLocation();
