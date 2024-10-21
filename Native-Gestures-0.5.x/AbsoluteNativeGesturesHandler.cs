@@ -89,7 +89,8 @@ namespace NativeGestures
         [BooleanProperty("Touchpad Mode", ""),
          DefaultPropertyValue(true),
          ToolTip("Native Gestures:\n\n" +
-                 "When Enabled, the tablet will act as a touchpad.")]
+                 "When Enabled, the tablet will act as a touchpad.\n" +
+                 "WARNING: Experimental on Windows")]
         public bool TouchpadModeEnabled { get; set; }
 
         [Property("Reset Time"),
@@ -106,11 +107,12 @@ namespace NativeGestures
             set => _resetTime = TimeSpan.FromMilliseconds(value);
         }
 
-        [Property("Relative Mode Hold Deadzone"),
+        [Property("Touchpad Mode Hold Deadzone"),
          DefaultPropertyValue(0.17f),
          Unit("px"),
          ToolTip("Native Gestures:\n\n" +
                  "The deadzone in pixels above which the primary point will be considered moving, and pressure will not be applied. \n" +
+                 "This value will only be used if [Touchpad Mode] is enabled. \n" +
                  "The default value is the very small value of 0.17px.")]
         public float RelativeModeHoldResetThreshold
         {
@@ -118,11 +120,12 @@ namespace NativeGestures
             set => _relativeModeHoldResetThreshold = new Vector2(value, value);
         }
 
-        [Property("Relative Mode Hold Reset Time"),
+        [Property("Touchpad Mode Hold Reset Time"),
          DefaultPropertyValue(130),
          Unit("ms"),
          ToolTip("Native Gestures:\n\n" +
                  "The time in milliseconds after which pressure will be applied to the primary point. \n" +
+                 "This value will only be used if [Touchpad Mode] is enabled. \n" +
                  "The default value is 130ms.")]
         public long RelativeModeHoldPressureTime
         {
