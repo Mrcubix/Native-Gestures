@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NativeGestures</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../.modules/OTD.EnhancedOutputMode-0.6.x/OTD.EnhancedOutputMode/OTD.EnhancedOutputMode.csproj" />
+    <ProjectReference Include="../.modules/OTD.EnhancedOutputMode-0.6.x/.modules/OpenTabletDriver/OpenTabletDriver.Desktop/OpenTabletDriver.Desktop.csproj" />
+    <ProjectReference Include="../Native-Gestures.Lib/Native-Gestures.Lib.csproj" />
+  </ItemGroup>
+
+</Project>
