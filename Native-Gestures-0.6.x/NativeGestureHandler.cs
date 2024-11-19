@@ -13,6 +13,8 @@ namespace NativeGestures
 {
     public abstract class NativeGestureHandler : IDisposable
     {
+        protected TabletReference _tablet;
+
         #region Events
 
         public event Action<IDeviceReport> Emit;
@@ -37,7 +39,15 @@ namespace NativeGestures
         #region Properties
 
         [TabletReference]
-        public TabletReference Tablet { get; set; }
+        public TabletReference Tablet
+        {
+            get => _tablet;
+            set
+            {
+                _tablet = value;
+                Initialize();
+            }
+        }
 
         [Resolved]
         public IDriver InterfaceDriver { get; set; }
